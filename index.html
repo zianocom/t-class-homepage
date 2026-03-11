@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>천재수학 티클래스 범계목련교실</title>
+  <meta name="description" content="범계 목련마을에서 AI가 찾고, 선생님이 키우는 우리 아이 수학 자신감. 초등 1~4학년 맞춤 수학 교육." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #00e686;
+      --primary-dark: #00b865;
+      --bg-dark: #0d1117;
+      --bg-card: #161b22;
+      --bg-card2: #21262d;
+      --text-main: #e6edf3;
+      --text-sub: #8b949e;
+      --border: #30363d;
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Lexend', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo { font-size: 1rem; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--text-main); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--text-sub); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta {
+      background: var(--primary); color: #0d1117;
+      border: none; padding: 10px 20px; border-radius: var(--radius);
+      font-family: 'Lexend', sans-serif; font-weight: 700; font-size: 0.9rem;
+      cursor: pointer; transition: background .2s;
+    }
+    .nav-cta:hover { background: var(--primary-dark); }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block; background: rgba(0,230,134,0.12);
+      color: var(--primary); font-size: 0.78rem; font-weight: 600;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 1px;
+    }
+    h2.section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800; line-height: 1.2; margin-bottom: 16px;
+    }
+    .section-desc { color: var(--text-sub); font-size: 1.05rem; max-width: 580px; margin-bottom: 56px; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: 120px; padding-bottom: 80px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,230,134,0.1); border: 1px solid rgba(0,230,134,0.3);
+      color: var(--primary); font-size: 0.8rem; font-weight: 600;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 24px;
+    }
+    .hero-badge span { width:8px; height:8px; background:var(--primary); border-radius:50%; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800; line-height: 1.15; margin-bottom: 20px;
+    }
+    .hero-title .highlight { color: var(--primary); }
+    .hero-sub { color: var(--text-sub); font-size: 1.05rem; margin-bottom: 36px; line-height: 1.7; }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--primary); color: #0d1117;
+      border: none; padding: 14px 28px; border-radius: var(--radius);
+      font-family: 'Lexend', sans-serif; font-weight: 700; font-size: 1rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--text-main);
+      border: 1px solid var(--border); padding: 14px 28px; border-radius: var(--radius);
+      font-family: 'Lexend', sans-serif; font-weight: 600; font-size: 1rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+    }
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .stat-box {
+      background: var(--bg-card2); border-radius: var(--radius);
+      padding: 20px; text-align: center;
+    }
+    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+    .stat-label { font-size: 0.78rem; color: var(--text-sub); margin-top: 4px; }
+    .progress-label { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 8px; display:flex; justify-content:space-between; }
+    .progress-bar { background: var(--bg-card2); border-radius: 20px; height: 8px; overflow: hidden; margin-bottom: 12px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #00b865); border-radius: 20px; }
+    .ai-badge {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(0,230,134,0.08); border: 1px solid rgba(0,230,134,0.2);
+      border-radius: var(--radius); padding: 12px 16px;
+      font-size: 0.85rem; color: var(--primary);
+    }
+
+    /* ── QUIZ SECTION ── */
+    #quiz { background: var(--bg-card); border-radius: 24px; margin: 0 auto; }
+    .quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .quiz-question {
+      background: var(--bg-dark); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; margin-bottom: 16px;
+    }
+    .quiz-question p { font-size: 1rem; margin-bottom: 16px; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+    .quiz-opt {
+      background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 16px; cursor: pointer;
+      font-size: 0.9rem; transition: all .2s; color: var(--text-main);
+    }
+    .quiz-opt:hover { border-color: var(--primary); color: var(--primary); }
+    .quiz-count { color: var(--text-sub); font-size: 0.85rem; margin-top: 12px; }
+    .feature-cards { display: flex; flex-direction: column; gap: 16px; }
+    .feature-card {
+      background: var(--bg-dark); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(0,230,134,0.12); display: flex; align-items: center; justify-content: center;
+      color: var(--primary); flex-shrink: 0;
+    }
+    .feature-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .feature-card p { font-size: 0.82rem; color: var(--text-sub); }
+
+    /* ── QUIZ RESULT ── */
+    #result { }
+    .result-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 40px; max-width: 700px; margin: 0 auto;
+      text-align: center;
+    }
+    .result-type {
+      font-size: 1.6rem; font-weight: 800; color: var(--primary); margin-bottom: 12px;
+    }
+    .result-desc { color: var(--text-sub); margin-bottom: 24px; }
+    .result-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px; }
+    .tag {
+      background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 6px 16px; font-size: 0.82rem;
+    }
+    .tag.positive { border-color: rgba(0,230,134,0.4); color: var(--primary); background: rgba(0,230,134,0.08); }
+
+    /* ── 4 STEPS ── */
+    #steps { }
+    .steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+    .step-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      position: relative; overflow: hidden; transition: transform .2s;
+    }
+    .step-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+    .step-num {
+      font-size: 3rem; font-weight: 800; color: rgba(0,230,134,0.12);
+      position: absolute; top: 16px; right: 20px; line-height: 1;
+    }
+    .step-icon { color: var(--primary); margin-bottom: 12px; }
+    .step-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .step-card p { font-size: 0.83rem; color: var(--text-sub); line-height: 1.6; }
+
+    /* ── SUCCESS CASES ── */
+    #cases { }
+    .cases-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .case-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px; transition: transform .2s;
+    }
+    .case-card:hover { transform: translateY(-4px); border-color: rgba(0,230,134,0.4); }
+    .case-header { display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; }
+    .case-name { font-weight: 700; }
+    .case-period { font-size: 0.78rem; color: var(--text-sub); background: var(--bg-card2); padding: 4px 10px; border-radius: 20px; }
+    .score-compare { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .score-box { text-align: center; flex: 1; }
+    .score-num { font-size: 1.8rem; font-weight: 800; }
+    .score-num.before { color: var(--text-sub); }
+    .score-num.after { color: var(--primary); }
+    .arrow { color: var(--primary); font-size: 1.4rem; }
+    .case-quote { font-size: 0.85rem; color: var(--text-sub); font-style: italic; line-height: 1.5; }
+
+    /* ── TEACHER ── */
+    #teacher { }
+    .teacher-inner { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
+    .teacher-photo {
+      width: 100%; aspect-ratio: 1; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(0,230,134,0.2), rgba(0,184,101,0.05));
+      border: 1px solid rgba(0,230,134,0.3);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .teacher-photo .material-icons { font-size: 96px; color: rgba(0,230,134,0.3); }
+    .teacher-title { font-size: 0.8rem; color: var(--primary); font-weight: 600; letter-spacing: 2px; margin-bottom: 8px; }
+    .teacher-name { font-size: 2rem; font-weight: 800; margin-bottom: 16px; }
+    .teacher-quote {
+      background: var(--bg-card); border-left: 3px solid var(--primary);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 24px; margin: 24px 0;
+      font-style: italic; color: var(--text-sub); line-height: 1.7;
+    }
+    .teacher-sub { color: var(--text-sub); line-height: 1.7; }
+
+    /* ── REVIEWS ── */
+    #reviews { }
+    .reviews-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; }
+    .review-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px; transition: transform .2s;
+    }
+    .review-card:hover { transform: translateY(-3px); }
+    .stars { color: #f0a500; margin-bottom: 12px; font-size: 1rem; }
+    .review-text { color: var(--text-sub); line-height: 1.7; margin-bottom: 20px; font-size: 0.92rem; }
+    .reviewer { display: flex; align-items: center; gap: 12px; }
+    .reviewer-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(0,230,134,0.15); display: flex; align-items: center; justify-content: center;
+      color: var(--primary); font-weight: 700;
+    }
+    .reviewer-name { font-weight: 700; font-size: 0.9rem; }
+    .reviewer-info { font-size: 0.78rem; color: var(--text-sub); }
+
+    /* ── CONTACT ── */
+    #contact { }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.85rem; color: var(--text-sub); margin-bottom: 6px; font-weight: 500; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 16px;
+      color: var(--text-main); font-family: 'Lexend', sans-serif; font-size: 0.9rem;
+      transition: border-color .2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--primary);
+    }
+    .form-group select option { background: var(--bg-card2); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-note { font-size: 0.75rem; color: var(--text-sub); margin-top: 4px; }
+    .contact-info { display: flex; flex-direction: column; gap: 24px; }
+    .info-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .info-icon { color: var(--primary); flex-shrink: 0; }
+    .info-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+    .info-card p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.6; }
+    .map-placeholder {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-sub); font-size: 0.9rem; flex-direction: column; gap: 8px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 40px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+    .footer-brand p { font-size: 0.83rem; color: var(--text-sub); line-height: 1.7; }
+    .footer-col h4 { font-size: 0.85rem; font-weight: 700; color: var(--text-sub); margin-bottom: 12px; letter-spacing: 0.5px; }
+    .footer-col a { display: block; font-size: 0.85rem; color: var(--text-sub); text-decoration: none; margin-bottom: 8px; transition: color .2s; }
+    .footer-col a:hover { color: var(--primary); }
+    .footer-social { display: flex; gap: 12px; margin-top: 12px; }
+    .social-btn {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--bg-card2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-sub); font-size: 0.8rem; cursor: pointer;
+      transition: all .2s; text-decoration: none;
+    }
+    .social-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .footer-bottom {
+      border-top: 1px solid var(--border); padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; color: var(--text-sub);
+    }
+    .footer-bottom-links { display: flex; gap: 16px; }
+    .footer-bottom-links a { color: var(--text-sub); text-decoration: none; }
+    .footer-bottom-links a:hover { color: var(--primary); }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(0,230,134,0.12), rgba(0,184,101,0.06));
+      border: 1px solid rgba(0,230,134,0.25); border-radius: 20px;
+      padding: 48px; text-align: center; margin: 0 40px 60px;
+    }
+    .cta-banner h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+    .cta-banner p { color: var(--text-sub); margin-bottom: 28px; }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 60px 20px; }
+      .hero-inner, .quiz-grid, .teacher-inner, .contact-grid, .footer-inner { grid-template-columns: 1fr; }
+      .steps-grid, .cases-grid, .reviews-grid { grid-template-columns: 1fr 1fr; }
+      .cta-banner { margin: 0 20px 40px; }
+    }
+    @media (max-width: 600px) {
+      .steps-grid, .cases-grid, .reviews-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">천재수학 <span>티클래스</span></div>
+  <ul class="nav-links">
+    <li><a href="#quiz">AI맞춤학습</a></li>
+    <li><a href="#steps">수업안내</a></li>
+    <li><a href="#cases">성공사례</a></li>
+    <li><a href="#teacher">선생님</a></li>
+    <li><a href="#reviews">학부모후기</a></li>
+    <li><a href="#contact">상담문의</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">무료 상담 신청</button>
+</nav>
+
+<!-- HERO -->
+<div style="padding: 0 40px;">
+  <section id="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge"><span></span> 범계목련교실 · AI 맞춤학습</div>
+        <h1 class="hero-title">수학이 <span class="highlight">재미있어지는</span> 곳</h1>
+        <p class="hero-sub">범계 목련마을에서 AI가 찾고, 선생님이 키우는<br>우리 아이 수학 자신감</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">무료 상담 신청</button>
+          <button class="btn-outline" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">AI 수학 유형 테스트</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-stats">
+          <div class="stat-box"><div class="stat-num">98%</div><div class="stat-label">성적 향상률</div></div>
+          <div class="stat-box"><div class="stat-num">4.9★</div><div class="stat-label">학부모 만족도</div></div>
+          <div class="stat-box"><div class="stat-num">300+</div><div class="stat-label">누적 수강생</div></div>
+          <div class="stat-box"><div class="stat-num">5년+</div><div class="stat-label">지역 신뢰 경력</div></div>
+        </div>
+        <div class="progress-label"><span>수학 자신감 성장</span><span>94%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:94%"></div></div>
+        <div class="progress-label"><span>AI 맞춤 학습 효과</span><span>89%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:89%"></div></div>
+        <div class="ai-badge">
+          <span class="material-icons" style="font-size:18px">auto_awesome</span>
+          AI 맞춤 분석 완료 · 지금 시작하세요
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- QUIZ SECTION -->
+<div style="padding: 0 40px 0;">
+  <section id="quiz">
+    <div class="section-tag">AI 진단 테스트</div>
+    <div class="quiz-grid">
+      <div>
+        <h2 class="section-title">우리 아이<br>수학 유형은?</h2>
+        <p class="section-desc">5개 질문으로 알아보는 우리 아이 수학 학습 스타일</p>
+        <div class="quiz-question">
+          <p>아이가 수학 문제를 풀 때 계산은 잘하지만 문장제를 어려워하나요?</p>
+          <div class="quiz-opts">
+            <div class="quiz-opt" onclick="selectOpt(this)">✅ 네, 계산은 빠른데 문장제가 너무 어려워요</div>
+            <div class="quiz-opt" onclick="selectOpt(this)">계산도 어렵고 문장제도 어려워요</div>
+            <div class="quiz-opt" onclick="selectOpt(this)">둘 다 잘하는 편이에요</div>
+          </div>
+        </div>
+        <div class="quiz-count">10,847명의 학부모가 참여했어요</div>
+      </div>
+      <div class="feature-cards">
+        <div class="feature-card">
+          <div class="feature-icon"><span class="material-icons">psychology</span></div>
+          <div>
+            <h4>AI 정밀 진단</h4>
+            <p>학습 패턴과 오답 유형을 분석하여 아이에게 딱 맞는 학습 로드맵을 제안합니다.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><span class="material-icons">school</span></div>
+          <div>
+            <h4>1:1 밀착 코칭</h4>
+            <p>최고 수준의 강사진이 아이의 성향을 고려한 맞춤형 지도를 제공합니다.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><span class="material-icons">bar_chart</span></div>
+          <div>
+            <h4>실시간 성적 리포트</h4>
+            <p>매 수업 후 상세한 학습 리포트로 아이의 변화를 눈으로 확인하세요.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- QUIZ RESULT -->
+<div style="padding: 0 40px;">
+  <section id="result" style="padding-top:0;">
+    <div class="result-card">
+      <div class="result-type">⚡ 번개 계산기 타입</div>
+      <p class="result-desc">계산 속도는 빠르지만 문장제 이해에 어려움을 느끼는 유형이에요.</p>
+      <div class="result-tags">
+        <span class="tag positive">빠른 암산 능력</span>
+        <span class="tag positive">수 패턴 인식력</span>
+        <span class="tag">문장제 독해 훈련 필요</span>
+        <span class="tag">풀이 과정 서술 연습</span>
+      </div>
+      <p style="color:var(--text-sub); font-size:0.88rem; margin-bottom:20px;">T클래스 AI가 분석한 맞춤 커리큘럼으로 문장제 정복 프로그램을 추천합니다</p>
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">맞춤 학습 상담 신청하기</button>
+    </div>
+  </section>
+</div>
+
+<!-- 4 STEPS -->
+<div style="padding: 0 40px;">
+  <section id="steps">
+    <div class="section-tag">학습 시스템</div>
+    <h2 class="section-title">AI가 찾고,<br>선생님이 완성하는 4단계 맞춤학습</h2>
+    <p class="section-desc">초등 1~4학년 눈높이에 맞춘 체계적 학습 과정</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon"><span class="material-icons">search</span></div>
+        <h3>AI 정밀 진단</h3>
+        <p>어떤 단원이 약한지, 어디서 막히는지 AI가 데이터로 정확하게 파악해요.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon"><span class="material-icons">route</span></div>
+        <h3>수준별 맞춤 학습</h3>
+        <p>58,000개 콘텐츠 중 우리 아이에게 맞는 커리큘럼을 AI가 자동 설계합니다.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon"><span class="material-icons">support_agent</span></div>
+        <h3>선생님 1:1 코칭</h3>
+        <p>AI가 놓칠 수 있는 표정, 자신감, 태도까지 선생님이 직접 관찰하며 코칭합니다.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-icon"><span class="material-icons">analytics</span></div>
+        <h3>데이터 분석 &amp; 리포트</h3>
+        <p>매주 학습 결과를 분석하고 학부모님께 성장 리포트를 전달합니다.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- SUCCESS CASES -->
+<div style="padding: 0 40px;">
+  <section id="cases">
+    <div class="section-tag">성공 사례</div>
+    <h2 class="section-title">이렇게 달라졌어요</h2>
+    <p class="section-desc">범계목련교실에서 공부한 아이들의 실제 이야기입니다.</p>
+    <div class="cases-grid">
+      <div class="case-card">
+        <div class="case-header">
+          <span class="case-name">초2 | 김O아</span>
+          <span class="case-period">6개월 수강</span>
+        </div>
+        <div class="score-compare">
+          <div class="score-box"><div class="score-num before">58점</div><div style="font-size:0.75rem;color:var(--text-sub)">Before</div></div>
+          <div class="arrow">→</div>
+          <div class="score-box"><div class="score-num after">94점</div><div style="font-size:0.75rem;color:var(--primary)">After</div></div>
+        </div>
+        <p class="case-quote">"수학 시간만 되면 울던 아이가 이제 스스로 문제집을 펴요"</p>
+      </div>
+      <div class="case-card">
+        <div class="case-header">
+          <span class="case-name">초3 | 박O준</span>
+          <span class="case-period">4개월 수강</span>
+        </div>
+        <div class="score-compare">
+          <div class="score-box"><div class="score-num before">72점</div><div style="font-size:0.75rem;color:var(--text-sub)">Before</div></div>
+          <div class="arrow">→</div>
+          <div class="score-box"><div class="score-num after">95점</div><div style="font-size:0.75rem;color:var(--primary)">After</div></div>
+        </div>
+        <p class="case-quote">"계산은 빠른데 실수가 많았는데, 꼼꼼한 습관이 생겼어요"</p>
+      </div>
+      <div class="case-card">
+        <div class="case-header">
+          <span class="case-name">초1 | 이O서</span>
+          <span class="case-period">3개월 수강</span>
+        </div>
+        <div class="score-compare">
+          <div class="score-box"><div class="score-num before" style="font-size:1.2rem;">수학 거부</div><div style="font-size:0.75rem;color:var(--text-sub)">Before</div></div>
+          <div class="arrow">→</div>
+          <div class="score-box"><div class="score-num after" style="font-size:1.2rem;">자신감 UP!</div><div style="font-size:0.75rem;color:var(--primary)">After</div></div>
+        </div>
+        <p class="case-quote">"숫자만 보면 싫다던 아이가 요즘 '수학 재밌어!'라고 해요"</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- TEACHER -->
+<div style="padding: 0 40px;">
+  <section id="teacher">
+    <div class="section-tag">선생님 소개</div>
+    <div class="teacher-inner">
+      <div class="teacher-photo">
+        <span class="material-icons">person</span>
+      </div>
+      <div>
+        <div class="teacher-title">MASTER EDUCATOR</div>
+        <h2 class="teacher-name">OOO 선생님</h2>
+        <p class="teacher-sub">수학은 재능이 아니라 자신감입니다. 저는 아이들에게 '할 수 있다'는 마음을 먼저 심어줍니다.</p>
+        <div class="teacher-quote">
+          "아이 한 명 한 명의 이름을 부르며 눈을 맞추는 수업을 합니다. 목련마을 엄마들의 입소문으로 시작한 교실이 지금의 범계목련교실이 되었습니다."
+        </div>
+        <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">선생님과 상담하기</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- REVIEWS -->
+<div style="padding: 0 40px;">
+  <section id="reviews">
+    <div class="section-tag">학부모 후기</div>
+    <h2 class="section-title">목련마을 학부모님들의 이야기</h2>
+    <p class="section-desc">실제 수강 학부모님들의 솔직한 후기입니다</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"범계에서 이런 곳이 있었다니! 아이가 집에 와서 수학 문제를 먼저 풀겠다고 해요. 선생님이 아이 성격까지 파악해서 지도해주시는 게 느껴집니다."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">박</div>
+          <div><div class="reviewer-name">박O진 학부모</div><div class="reviewer-info">목련2단지</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"큰아이에 이어 둘째도 보내고 있어요. AI 진단 결과가 정말 정확하더라고요. 어디가 약한지 딱 짚어주니까 효율적으로 공부해요."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">김</div>
+          <div><div class="reviewer-name">김O현 학부모</div><div class="reviewer-info">목련1단지</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"수학을 너무 싫어하던 아이인데 선생님이 자신감부터 키워주셔서 지금은 수학이 제일 좋은 과목이 됐어요. 진짜 감사합니다."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">이</div>
+          <div><div class="reviewer-name">이O정 학부모</div><div class="reviewer-info">목련3단지</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"학원 상담 갔을 때 AI 분석 리포트를 보여주시는데 우리 아이 상태가 한눈에 보여서 신뢰가 갔어요. 매달 성장 리포트도 좋아요."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">정</div>
+          <div><div class="reviewer-name">정O아 학부모</div><div class="reviewer-info">목련2단지</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CTA BANNER -->
+<div class="cta-banner" style="max-width:1200px; margin: 0 auto 60px; padding:0 40px;">
+  <div class="cta-banner">
+    <h2>우리 아이도 수학을 즐거워할 수 있습니다</h2>
+    <p>지금 바로 AI 무료 진단 테스트를 예약하고 맞춤 학습 솔루션을 받아보세요.</p>
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">무료 상담 신청하기 →</button>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div style="padding: 0 40px;">
+  <section id="contact">
+    <div class="section-tag">상담 신청</div>
+    <h2 class="section-title">우리 아이 수학,<br>지금 시작하세요</h2>
+    <p class="section-desc">부담 없는 무료 상담으로 시작해보세요.</p>
+    <div class="contact-grid">
+      <div>
+        <div class="form-group">
+          <label>학부모 성함</label>
+          <input type="text" placeholder="홍길동" />
+        </div>
+        <div class="form-group">
+          <label>연락처</label>
+          <input type="tel" placeholder="010-0000-0000" />
+        </div>
+        <div class="form-group">
+          <label>자녀 학년</label>
+          <select>
+            <option value="">선택해 주세요</option>
+            <option>초등 1학년</option>
+            <option>초등 2학년</option>
+            <option>초등 3학년</option>
+            <option>초등 4학년</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>상담 내용 (선택)</label>
+          <textarea placeholder="궁금하신 점을 자유롭게 적어주세요."></textarea>
+        </div>
+        <p class="form-note">입력하신 정보는 상담 목적으로만 안전하게 사용됩니다.</p>
+        <button class="btn-primary" style="width:100%; margin-top:16px;" onclick="alert('상담 신청이 접수되었습니다. 곧 연락드리겠습니다!')">무료 상담 신청하기</button>
+      </div>
+      <div class="contact-info">
+        <div class="info-card">
+          <span class="material-icons info-icon">location_on</span>
+          <div>
+            <h4>위치</h4>
+            <p>경기도 안양시 동안구 목련로 123 (범계동)<br>범계역 4번 출구 도보 10분<br>목련마을 단지 내 상가 2층</p>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="material-icons info-icon">phone</span>
+          <div>
+            <h4>전화 문의</h4>
+            <p>031-123-4567</p>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="material-icons info-icon">chat</span>
+          <div>
+            <h4>카카오톡</h4>
+            <p>@천재수학_범계목련</p>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="material-icons info-icon">schedule</span>
+          <div>
+            <h4>운영 시간</h4>
+            <p>평일 13:00 - 19:00<br>주말 및 공휴일 휴무</p>
+          </div>
+        </div>
+        <div class="map-placeholder">
+          <span class="material-icons" style="font-size:36px; color:var(--primary);">map</span>
+          <span>카카오맵에서 보기</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>천재수학 티클래스 범계목련교실</h3>
+      <p>우리 아이의 수학적 사고력을 깨우는<br>프리미엄 맞춤 교육</p>
+      <p style="margin-top:8px;">경기도 안양시 동안구 목련마을 단지 내<br>031-XXX-XXXX</p>
+      <div class="footer-social">
+        <a class="social-btn" href="#">K</a>
+        <a class="social-btn" href="#">📷</a>
+        <a class="social-btn" href="#">블</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>바로가기</h4>
+      <a href="#quiz">AI맞춤학습</a>
+      <a href="#steps">수업안내</a>
+      <a href="#cases">성공사례</a>
+      <a href="#teacher">선생님 소개</a>
+      <a href="#reviews">학부모 후기</a>
+    </div>
+    <div class="footer-col">
+      <h4>상담 &amp; 문의</h4>
+      <a href="#contact">무료 상담 신청</a>
+      <a href="#">카카오톡 상담</a>
+      <a href="#">인스타그램</a>
+      <a href="#">블로그</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 천재수학 티클래스 범계목련교실. All rights reserved.<br>사업자등록번호: XXX-XX-XXXXX</span>
+    <div class="footer-bottom-links">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">오시는 길</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function selectOpt(el) {
+    document.querySelectorAll('.quiz-opt').forEach(o => o.style.borderColor = '');
+    el.style.borderColor = 'var(--primary)';
+    el.style.color = 'var(--primary)';
+    setTimeout(() => {
+      document.getElementById('result').scrollIntoView({behavior:'smooth'});
+    }, 400);
+  }
+
+  // nav active link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--primary)' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
