@@ -13,15 +13,102 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <style>
         :root {
-            --primary: #60a5fa;
-            --primary-dark: #3b82f6;
-            --bg-dark: #06091a;
-            --bg-card: #0c1229;
-            --bg-card2: #111b38;
-            --text-main: #e2e8f0;
-            --text-sub: #94a3b8;
-            --border: #1e2d50;
+            --primary: #ff6b2b;
+            --primary-dark: #e55a1b;
+            --bg-dark: #0d0905;
+            --bg-card: #1a1008;
+            --bg-card2: #231508;
+            --text-main: #f5ede6;
+            --text-sub: #a89080;
+            --border: #3d2510;
             --radius: 12px;
+        }
+
+        /* ── LIGHT MODE ── */
+        body.light-mode {
+            --bg-dark: #fff8f5;
+            --bg-card: #ffffff;
+            --bg-card2: #fef0e8;
+            --text-main: #1a0d05;
+            --text-sub: #6b4030;
+            --border: #f0cbb8;
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 248, 245, 0.92);
+        }
+
+        body.light-mode #quiz {
+            background: linear-gradient(135deg, #ffffff, #fff0e8) !important;
+        }
+
+        body.light-mode .quiz-question,
+        body.light-mode .feature-card {
+            background: #fff8f5;
+            border-color: var(--border);
+        }
+
+        body.light-mode .quiz-opt {
+            background: #fff;
+            color: var(--text-main);
+        }
+
+        body.light-mode .step-card,
+        body.light-mode .case-card,
+        body.light-mode .review-card,
+        body.light-mode .info-card,
+        body.light-mode .result-card {
+            background: #ffffff;
+        }
+
+        body.light-mode .teacher-photo {
+            background: linear-gradient(135deg, rgba(255, 107, 43, 0.12), rgba(229, 90, 27, 0.04)) !important;
+        }
+
+        body.light-mode .teacher-quote {
+            background: #fff0e8;
+        }
+
+        body.light-mode .cta-banner {
+            background: linear-gradient(135deg, rgba(255, 107, 43, 0.1), rgba(229, 90, 27, 0.04));
+        }
+
+        body.light-mode .nav-cta {
+            color: #fff;
+        }
+
+        body.light-mode .btn-primary {
+            color: #fff;
+        }
+
+        body.light-mode .btn-outline {
+            color: var(--text-main);
+        }
+
+        body.light-mode footer {
+            border-top-color: var(--border);
+        }
+
+        /* ── MODE TOGGLE BUTTON ── */
+        .mode-toggle {
+            background: var(--bg-card2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-sub);
+            font-size: 1.1rem;
+            transition: all .2s;
+            flex-shrink: 0;
+        }
+
+        .mode-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         * {
@@ -1199,6 +1286,56 @@
                 justify-content: center;
             }
         }
+
+        /* ── 세로(PORTRAIT) 모드 최적화 ── */
+        @media (orientation: portrait) and (max-width: 900px) {
+
+            .hero-inner,
+            .quiz-grid,
+            .teacher-inner,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2.2rem !important;
+            }
+
+            .hero-sub {
+                font-size: 1.05rem;
+            }
+
+            h2.section-title {
+                font-size: 1.75rem !important;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .cases-grid,
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-outline {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-card {
+                margin-top: 24px;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -1217,6 +1354,7 @@
         </ul>
         <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">무료 상담
             신청</button>
+        <button class="mode-toggle" id="modeToggle" title="다크/라이트 모드 전환">🌙</button>
     </nav>
 
     <!-- HERO -->
@@ -1593,6 +1731,19 @@
                 document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
             }, 400);
         }
+
+        // ── DARK / LIGHT MODE ──
+        const toggle = document.getElementById('modeToggle');
+        const saved = localStorage.getItem('colorMode');
+        if (saved === 'light') {
+            document.body.classList.add('light-mode');
+            toggle.textContent = '☀️';
+        }
+        toggle.addEventListener('click', () => {
+            const isLight = document.body.classList.toggle('light-mode');
+            toggle.textContent = isLight ? '☀️' : '🌙';
+            localStorage.setItem('colorMode', isLight ? 'light' : 'dark');
+        });
 
         // nav active link
         const sections = document.querySelectorAll('section[id]');
