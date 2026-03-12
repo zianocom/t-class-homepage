@@ -1757,6 +1757,191 @@
                 a.style.color = a.getAttribute('href') === '#' + current ? 'var(--primary)' : '';
             });
         });
+
+        /* ==============================================
+           매쓰클래스 – 수학 전문 AI 맞춤학습 JS
+           마이크로 인터랙션 + 탭 UI + 카운터 + 보이스
+           ============================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // ===== 네비게이션 =====
+            const navbar = document.getElementById('navbar') || document.querySelector('nav');
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('navLinks') || document.querySelector('.nav-links');
+
+            window.addEventListener('scroll', () => {
+                if(navbar) navbar.classList.toggle('scrolled', scrollY > 30);
+            });
+
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+
+            // 네비 링크 클릭 시 모바일 메뉴 닫기
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                a.addEventListener('click', () => {
+                    if(mobileMenu) mobileMenu.classList.remove('open');
+                });
+            });
+
+            // ===== 카운트업 애니메이션 =====
+            const counters = document.querySelectorAll('.count');
+            const countObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.target);
+                        if(isNaN(target)) return;
+                        const duration = 2000;
+                        const start = performance.now();
+
+                        const animate = (now) => {
+                            const progress = Math.min((now - start) / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            el.textContent = Math.floor(eased * target).toLocaleString();
+                            if (progress < 1) requestAnimationFrame(animate);
+                        };
+                        requestAnimationFrame(animate);
+                        countObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(c => countObserver.observe(c));
+
+            // ===== 스크롤 애니메이션 =====
+            const animEls = document.querySelectorAll('[data-anim]');
+            if(animEls.length > 0) {
+                const scrollObs = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const delay = entry.target.dataset.delay || 0;
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, parseInt(delay));
+                            scrollObs.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                animEls.forEach(el => scrollObs.observe(el));
+            }
+
+            // ===== 4단계 학습 탭 (STEP 01~04) =====
+            const stepTabs = document.querySelectorAll('.step-tab');
+            const stepPanels = document.querySelectorAll('.step-panel');
+
+            if(stepTabs.length > 0 && stepPanels.length > 0) {
+                stepTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const step = tab.dataset.step;
+                        stepTabs.forEach(t => t.classList.remove('active'));
+                        stepPanels.forEach(p => p.classList.remove('active'));
+                        tab.classList.add('active');
+                        const panel = document.getElementById(`panel${step}`);
+                        if(panel) panel.classList.add('active');
+                    });
+                });
+            }
+
+            // ===== 선생님 탭 =====
+            const ttTabs = document.querySelectorAll('.tt-tab');
+            const ttPanels = document.querySelectorAll('.tt-panel');
+
+            if(ttTabs.length > 0 && ttPanels.length > 0) {
+                ttTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const target = tab.dataset.tt;
+                        ttTabs.forEach(t => t.classList.remove('active'));
+                        ttPanels.forEach(p => p.classList.remove('active'));
+                        tab.classList.add('active');
+                        const panel = document.getElementById(`tt-${target}`);
+                        if(panel) panel.classList.add('active');
+                    });
+                });
+            }
+
+            // ===== 폭죽(Confetti) 마이크로 인터랙션 =====
+            function launchConfetti() {
+                // 동적으로 컨테이너 만들기 (body에)
+                let container = document.getElementById('confetti');
+                if (!container) {
+                    container = document.createElement('div');
+                    container.id = 'confetti';
+                    container.style.position = 'fixed';
+                    container.style.top = '0';
+                    container.style.left = '0';
+                    container.style.width = '100vw';
+                    container.style.height = '100vh';
+                    container.style.pointerEvents = 'none';
+                    container.style.zIndex = '9999';
+                    container.style.overflow = 'hidden';
+                    document.body.appendChild(container);
+                }
+                
+                const colors = ['#7B61FF','#FF6B9D','#00C48C','#FFC542','#4DA6FF','#FF8C42'];
+                for (let i = 0; i < 40; i++) {
+                    const piece = document.createElement('div');
+                    piece.classList.add('confetti-piece');
+                    piece.style.position = 'absolute';
+                    piece.style.top = '-10px';
+                    piece.style.left = Math.random() * 100 + '%';
+                    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.animationDelay = Math.random() * 0.5 + 's';
+                    piece.style.animationDuration = (Math.random() * 1 + 1.5) + 's';
+                    piece.style.animationName = 'fallAndSpin';
+                    piece.style.animationTimingFunction = 'linear';
+                    if (Math.random() > 0.5) piece.style.borderRadius = '50%';
+                    piece.style.width = (Math.random() * 6 + 5) + 'px';
+                    piece.style.height = (Math.random() * 6 + 5) + 'px';
+                    container.appendChild(piece);
+                    setTimeout(() => piece.remove(), 3000);
+                }
+
+                // 동적으로 애니메이션 클래스를 추가
+                if(!document.getElementById('confetti-css')) {
+                    const style = document.createElement('style');
+                    style.id = 'confetti-css';
+                    style.innerHTML = `
+                        @keyframes fallAndSpin {
+                            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+                            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+
+            // CTA 버튼 호버 시 폭죽
+            document.querySelectorAll('.btn-hero, .btn-primary').forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    launchConfetti();
+                });
+            });
+
+            // ===== bm-fill 애니메이션 (벤토 미니 바 차트) =====
+            const bmFills = document.querySelectorAll('.bm-fill');
+            if(bmFills.length > 0) {
+                const bmObs = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.width = getComputedStyle(entry.target).getPropertyValue('--w');
+                            bmObs.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.3 });
+                bmFills.forEach(el => {
+                    el.style.width = '0';
+                    bmObs.observe(el);
+                });
+            }
+
+            // ===== 수학 기호 랜덤 회전 =====
+            document.querySelectorAll('.float-symbol').forEach(sym => {
+                sym.style.animationDuration = (8 + Math.random() * 8) + 's';
+            });
+
+        });
     </script>
 
 </body>
